@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["@babel/env", {
+      "targets": {
+        "safari": 7
+      },
+      "corejs": "2.6.5",
+      "useBuiltIns": "usage",
+      "debug": false
+    }]
+  ],
+  "plugins": []
+}
