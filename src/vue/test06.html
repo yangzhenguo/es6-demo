@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        * {
+            user-select: none;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <nav class="navbar navbar-dark bg-dark">
+            <span class="navbar-brand mb-0 h1">Todo List</span>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header text-danger">
+                            <h3>你有{{ count }}件事要完成</h3>
+                            <input type="text" class="form-control" v-model="todo" @keyup.enter="add"/>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(todo, index) of todos" :class="{'completed': todo.completed}" :key="index">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" v-model="todo.completed" type="checkbox" :id="'todo-' + index">
+                                        <label class="form-check-label" :for="'todo-' + index">{{ todo.title }}</label>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm float-right" @click="del(index)">&times;</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            todo: '',
+            todos: [{
+                completed: false,
+                title: '吃饭'
+            }, {
+                completed: true,
+                title: '睡觉'
+            }]
+        },
+        computed: {
+            count() {
+                return this.todos.reduce((val, next) => val + (next.completed ? 0 : 1), 0);
+            }
+        },
+        methods: {
+            add() {
+                this.todos.unshift({
+                    completed: false,
+                    title: this.todo
+                })
+                this.todo = ''
+            },
+            del(index) {
+                this.todos.splice(index, 1)
+            }
+        }
+    })
+</script>
+</body>
+</html>

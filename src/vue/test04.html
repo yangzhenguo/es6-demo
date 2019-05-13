@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container" v-cloak>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-primary text-center">Cart</h3>
+                <table class="table table-bordered text-center">
+                    <tr>
+                        <th><input id="all" type="checkbox" v-model="all" class="checkbox"> <label for="all">全选</label></th>
+                        <th>商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr v-for="(product, index) of products" :key="index">
+                        <td><input type="checkbox" v-model="product.selected"></td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.unitPrice | fixed | currency }}</td>
+                        <td style="width: 150px;">
+                            <div class="input-group">
+                                <div href="javascript:void(0)" class="input-group-prepend" :class="{disabled: product.count <= 0}" @click="product.count>0 && product.count--">
+                                    <span class="input-group-text">-</span>
+                                </div>
+                                <input type="text" v-model="product.count" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                <div href="javascript:void(0)" class="input-group-append" :class="{disabled: product.count >= 0}">
+                                    <span class="input-group-text" @click="product.count < 10 && product.count++">+</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ product.unitPrice * product.count | fixed | currency }}</td>
+                        <td>
+                            <button class="btn btn-danger" @click="products.splice(index, 1)">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" colspan="6">总计: {{ sum | fixed | currency }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="./ajax.js"></script>
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                products: []
+            },
+            filters: {
+                fixed (value, count = 2) {
+                    return value.toFixed(count)
+                },
+                currency (value, unit = '￥') {
+                    return unit + value
+                }
+            },
+            computed: {
+                all: {
+                    get () {
+                        return this.products.every(product => product.selected)
+                    },
+                    set (val) {
+                        this.products.forEach(product => product.selected = val)
+                    }
+                },
+                sum () {
+                    return this.products.reduce((price, next) => price + (next.selected ? next.count * next.unitPrice : 0), 0)
+                }
+            },
+            methods: {
+                initData () {
+                    return ajax({url: 'data.json'}).then(data => {
+                        this.products = data.data
+                    });
+                }
+            },
+            created () {
+                this.initData()
+            }
+        })
+    </script>
+</body>
+</html>

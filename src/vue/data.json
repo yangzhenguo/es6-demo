@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "data": [{
+    "selected": true,
+    "name": "颜色",
+    "unitPrice": 25.6,
+    "count": 2
+  }, {
+    "selected": false,
+    "name": "落地",
+    "unitPrice": 32.78,
+    "count": 3
+  }]
+}

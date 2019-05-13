@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container" v-cloak>
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary" @click="toggle = !toggle">toggle</button>
+                <br>
+                <template v-if="toggle">
+                    <label for="register">Register</label>
+                    <input type="text" id="register" key="register">
+                </template>
+                <template v-else>
+                    <label for="login">Login</label>
+                    <input type="text" id="login" key="login">
+                </template>
+            </div>
+        </div>
+    </div>
+    <script src="./ajax.js"></script>
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                toggle: false
+            }
+        })
+    </script>
+</body>
+</html>

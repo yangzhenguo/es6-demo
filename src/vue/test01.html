@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            min-height: 100%;
+            overflow: auto;
+        }
+        #app {
+            height: 100vh;
+        }
+        [v-cloak] {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <h3>{{ message }}</h3>
+    <pre>{{ $data }}</pre>
+    <p v-once v-text="test"></p>
+    <p>{{ test.a }}</p>
+    <ul>
+        <li v-for="(c, index) of '*'.repeat(10)">{{ c }}</li>
+    </ul>
+    <ul>
+        <li v-for="i, j of 5">{{ i }} {{ j }}</li>
+    </ul>
+    <ul>
+        <li v-for="v, k, i of {name: 'yzg', age: 23}">{{ v }} {{ k }} {{ i }}</li>
+    </ul>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello World',
+            test: {
+            }
+        }
+    })
+</script>
+</body>
+</html>
