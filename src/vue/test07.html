@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #app {
+            position: relative;
+        }
+        img {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <img :src="img" v-for="img,index of imgs" :key="index">
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/axios/dist/axios.js"></script>
+<script>
+    new Vue({
+        data: {
+            imgs: [
+                'https://image.toptop.net/20190515/6aef8dd53be74a72804640965527da00.svg',
+                'https://image.toptop.net/20190515/9c5f068901604c688406e85ca0782b22.svg',
+                'https://image.toptop.net/20190515/f84c74a9ac544bd6912c2bb6158f4e46.svg',
+                'https://image.toptop.net/20190515/91a97b333fda49dea9d65975d9569203.svg',
+                'https://image.toptop.net/20190515/3e98f636d5184eaebcb6875176901575.svg',
+                'https://image.toptop.net/20190515/20c3420cf6b046a3a66efab24a829a13.svg',
+                'https://image.toptop.net/20190515/445113cb80ee41d0a11731d39b11a646.svg',
+                'https://image.toptop.net/20190515/2bd8c713566f46da8d9e4a223f34b23e.svg',
+                'https://image.toptop.net/20190515/756e1c7a923e48c09c930f7794c87ad3.svg',
+                'https://image.toptop.net/20190515/cf9d8a0363f34dad96953ee26ec8bc11.svg',
+                'https://image.toptop.net/20190515/0fa33c49459c46239c820da67d5d58c3.svg'
+            ]
+        },
+        computed: {
+            img () {
+                return this.src ? 'data:image/svg+xml;charset=utf-8,' + this.src : this.src
+            }
+        },
+        created() {
+            this.$nextTick(() => {
+                console.log(this);
+            })
+            console.log(new Date());
+
+            axios.get('https://image.toptop.net/20190515/d8345e98cea54525b94b1b3b3237f765.svg').then(({data}) => {
+                console.log(data)
+                this.src = btoa(data.replace('<?xml version="1.0" encoding="UTF-8"?>', '').replace(/\n/g, ''))
+            })
+        }
+    }).$mount('#app');
+</script>
+</body>
+</html>
