@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div id="app" class="container">
+    <router-link to="/home">首页</router-link>
+    <router-link to="/detail">详情</router-link>
+    <router-view></router-view>
+</div>
+<template id="home">
+    <div>
+        首页
+    </div>
+</template>
+<template id="detail">
+    <div>
+        详情
+        <router-link :to="{name: 'profile'}">profile</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    new Vue({
+        router: new VueRouter({
+            routes: [{
+                path: '',
+                redirect: '/home'
+            }, {
+                path: '/home',
+                component: {
+                    template: '#home',
+                }
+            }, {
+                path: '/detail',
+                component: {
+                    template: '#detail'
+                },
+                children: [{
+                    path: 'profile',
+                    name: 'profile',
+                    component: {
+                        template: '<div>profile</div>'
+                    }
+                }]
+            }]
+        }),
+        el: '#app'
+    })
+</script>
+</body>
+</html>
