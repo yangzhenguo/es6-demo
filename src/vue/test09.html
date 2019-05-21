@@ -9,7 +9,9 @@
 <div id="app" class="container">
     <router-link to="/home">首页</router-link>
     <router-link to="/detail">详情</router-link>
-    <router-view></router-view>
+    <keep-alive>
+        <router-view></router-view>
+    </keep-alive>
 </div>
 <template id="home">
     <div>
@@ -35,11 +37,17 @@
                 path: '/home',
                 component: {
                     template: '#home',
+                    created () {
+                        console.log(1)
+                    }
                 }
             }, {
                 path: '/detail',
                 component: {
-                    template: '#detail'
+                    template: '#detail',
+                    created () {
+                        console.log(1)
+                    }
                 },
                 children: [{
                     path: 'profile',
